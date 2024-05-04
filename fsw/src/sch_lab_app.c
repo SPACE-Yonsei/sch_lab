@@ -47,18 +47,26 @@
 #include "sch_lab_table.h"
 
 /*
+Include HK message type
+*/
+#include "hk_msg.h"
+#include "hk_msgids.h"
+
+/*
 ** Global Structure
 */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader;
+    /*Define various Message Types*/
+    CFE_MSG_CommandHeader_t CmdHeader; //Default Command Header
+    CFE_SB_MsgId_t Msgid; // The message ID
     uint32                  PacketRate;
     uint32                  Counter;
 } SCH_LAB_StateEntry_t;
 
 typedef struct
 {
-    SCH_LAB_StateEntry_t State[SCH_LAB_MAX_SCHEDULE_ENTRIES];
+    SCH_LAB_StateEntry_t State[SCH_LAB_MAX_SCHEDULE_ENTRIES]; // Default
     CFE_TBL_Handle_t     TblHandle;
     CFE_SB_PipeId_t      CmdPipe;
 } SCH_LAB_GlobalData_t;
@@ -67,6 +75,9 @@ typedef struct
 ** Global Variables
 */
 SCH_LAB_GlobalData_t SCH_LAB_Global;
+
+HK_Send_Out_Msg_t HkSendOutMsg;
+
 
 /*
 ** Local Function Prototypes
@@ -119,7 +130,14 @@ void SCH_Lab_AppMain(void)
                     if (LocalStateEntry->Counter >= LocalStateEntry->PacketRate)
                     {
                         LocalStateEntry->Counter = 0;
-                        CFE_SB_TransmitMsg(&LocalStateEntry->CmdHeader.Msg, true);
+                        if(LocalStateEntry->Msgid == HK_SEND_COMBINED_PKT_MID){
+                            HkSendOutMsg.OutMsgToSend = HK_COMBINED_PKT1_MID;
+                            printf("send hk entry to : %x\n", HkSendOutMsg.OutMsgToSend);
+                            CFE_SB_TransmitMsg(&HkSendOutMsg.Hdr.Msg, true);
+                        }
+                        else{
+                            CFE_SB_TransmitMsg(&LocalStateEntry->CmdHeader.Msg, true);
+                        }
                     }
                 }
                 ++LocalStateEntry;
@@ -195,8 +213,19 @@ int32 SCH_LAB_AppInit(void)
     {
         if (ConfigEntry->PacketRate != 0)
         {
-            CFE_MSG_Init(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->MessageID, sizeof(LocalStateEntry->CmdHeader));
-            CFE_MSG_SetFcnCode(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->FcnCode);
+            LocalStateEntry->Msgid = ConfigEntry->MessageID;
+            /* Housekeeping Application needs different message type called "HK_SEND_OUT_MSG_t"*/
+            if(ConfigEntry->MessageID == HK_SEND_COMBINED_PKT_MID){
+
+                CFE_MSG_Init(&HkSendOutMsg.Hdr.Msg, ConfigEntry->MessageID, sizeof(HkSendOutMsg));
+                CFE_MSG_SetFcnCode(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->FcnCode);
+                printf("HK Packet Added\n");
+            }
+            /*Other */
+            else{
+                CFE_MSG_Init(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->MessageID, sizeof(LocalStateEntry->CmdHeader));
+                CFE_MSG_SetFcnCode(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->FcnCode);
+            }
             LocalStateEntry->PacketRate = ConfigEntry->PacketRate;
         }
         ++ConfigEntry;

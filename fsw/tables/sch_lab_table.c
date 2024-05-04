@@ -31,6 +31,7 @@
 #include "to_lab_msgids.h"
 
 #include "sample_app_msgids.h"
+#include "hk_msgids.h"
 
 #if 0
 #include "sc_msgids.h"
@@ -57,7 +58,9 @@ SCH_LAB_ScheduleTable_t SCH_TBL_Structure = {.Config = {
                                                  {CFE_SB_MSGID_WRAP_VALUE(CFE_TBL_SEND_HK_MID), 4, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(CI_LAB_SEND_HK_MID), 4, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(TO_LAB_SEND_HK_MID), 4, 0},
-                                                 {CFE_SB_MSGID_WRAP_VALUE(SAMPLE_APP_SEND_HK_MID), 4, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(SAMPLE_APP_MID_HOUSEKEEPING_REQ), 4, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(HK_SEND_HK_MID), 4, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(HK_SEND_COMBINED_PKT_MID), 4, 0}
 #if 0
                 {CFE_SB_MSGID_WRAP_VALUE(SC_SEND_HK_MID),       4, 0},
                 {CFE_SB_MSGID_WRAP_VALUE(SC_1HZ_WAKEUP_MID),    1, 0},  /* Example of a 1hz packet */
