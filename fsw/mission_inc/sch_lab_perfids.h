@@ -29,7 +29,7 @@
 #ifndef _sch_lab_perfids_h_
 #define _sch_lab_perfids_h_
 
-#define SCH_MAIN_TASK_PERF_ID 36
+#define SCH_MAIN_TASK_PERF_ID 52
 
 #endif /* _sch_lab_perfids_h_ */
 
