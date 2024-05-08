@@ -76,9 +76,6 @@ typedef struct
 */
 SCH_LAB_GlobalData_t SCH_LAB_Global;
 
-HK_Send_Out_Msg_t HkSendOutMsg;
-
-
 /*
 ** Local Function Prototypes
 */
@@ -130,14 +127,7 @@ void SCH_Lab_AppMain(void)
                     if (LocalStateEntry->Counter >= LocalStateEntry->PacketRate)
                     {
                         LocalStateEntry->Counter = 0;
-                        if(LocalStateEntry->Msgid == HK_SEND_COMBINED_PKT_MID){
-                            HkSendOutMsg.OutMsgToSend = HK_COMBINED_PKT1_MID;
-                            printf("send hk entry to : %x\n", HkSendOutMsg.OutMsgToSend);
-                            CFE_SB_TransmitMsg(&HkSendOutMsg.Hdr.Msg, true);
-                        }
-                        else{
-                            CFE_SB_TransmitMsg(&LocalStateEntry->CmdHeader.Msg, true);
-                        }
+                        CFE_SB_TransmitMsg(&LocalStateEntry->CmdHeader.Msg, true);
                     }
                 }
                 ++LocalStateEntry;
@@ -215,17 +205,9 @@ int32 SCH_LAB_AppInit(void)
         {
             LocalStateEntry->Msgid = ConfigEntry->MessageID;
             /* Housekeeping Application needs different message type called "HK_SEND_OUT_MSG_t"*/
-            if(ConfigEntry->MessageID == HK_SEND_COMBINED_PKT_MID){
+            CFE_MSG_Init(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->MessageID, sizeof(LocalStateEntry->CmdHeader));
+            CFE_MSG_SetFcnCode(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->FcnCode);
 
-                CFE_MSG_Init(&HkSendOutMsg.Hdr.Msg, ConfigEntry->MessageID, sizeof(HkSendOutMsg));
-                CFE_MSG_SetFcnCode(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->FcnCode);
-                printf("HK Packet Added\n");
-            }
-            /*Other */
-            else{
-                CFE_MSG_Init(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->MessageID, sizeof(LocalStateEntry->CmdHeader));
-                CFE_MSG_SetFcnCode(&LocalStateEntry->CmdHeader.Msg, ConfigEntry->FcnCode);
-            }
             LocalStateEntry->PacketRate = ConfigEntry->PacketRate;
         }
         ++ConfigEntry;
