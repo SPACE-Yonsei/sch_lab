@@ -42,6 +42,22 @@
 #endif
 
 /*
+    User Defined MID headers
+*/
+
+#include "as_app_msgids.h"
+#include "ci_lab_msgids.h"
+#include "control_app_msgids.h"
+#include "ds_msgids.h"
+#include "gps_app_msgids.h"
+#include "imu_app_msgids.h"
+#include "logic_app_msgids.h"
+#include "sim_app_msgids.h"
+#include "to_lab_msgids.h"
+#include "vol_app_msgids.h"
+
+
+/*
 ** SCH Lab schedule table
 ** When populating this table:
 **  1. The entire table is processed (SCH_LAB_MAX_SCHEDULE_ENTRIES) but entries with a
@@ -56,17 +72,43 @@ SCH_LAB_ScheduleTable_t SCH_TBL_Structure = {.Config = {
                                                  {CFE_SB_MSGID_WRAP_VALUE(CFE_TIME_SEND_HK_MID), 4, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(CFE_SB_SEND_HK_MID), 4, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(CFE_TBL_SEND_HK_MID), 4, 0},
-                                                 {CFE_SB_MSGID_WRAP_VALUE(CI_LAB_SEND_HK_MID), 4, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(CI_LAB_MID_HOUSEKEEPING_REQ), 4, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(TO_LAB_MID_GROUNDCMD_REQ), 4, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(SAMPLE_APP_MID_HOUSEKEEPING_REQ), 4, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(HK_MID_HOUSEKEEPING_REQ), 4, 0},
-                                                 {CFE_SB_MSGID_WRAP_VALUE(HK_MID_SENDCOMBINEDPKT_REQ), 4, 0}
+                                                 {CFE_SB_MSGID_WRAP_VALUE(HK_MID_SENDCOMBINEDPKT_REQ), 4, 0},
+                                                 
+                                                 //User Defined HK MID GOES HERE
+                                                 {CFE_SB_MSGID_WRAP_VALUE(AS_APP_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(CI_LAB_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(CONTROL_APP_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(DS_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(GPS_APP_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(IMU_APP_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(LOGIC_APP_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(SIM_APP_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(TO_LAB_MID_HOUSEKEEPING_REQ), 1, 0},
+                                                 {CFE_SB_MSGID_WRAP_VALUE(VOL_APP_MID_HOUSEKEEPING_REQ), 1, 0},
+
+                                                 //User Defined Data Request MID GOES HERE
+                                                {CFE_SB_MSGID_WRAP_VALUE(GPS_APP_MID_GPS_DATA_REQ), 1, 0},
+                                                {CFE_SB_MSGID_WRAP_VALUE(AS_APP_MID_AS_DATA_REQ), 1, 0},
+                                                {CFE_SB_MSGID_WRAP_VALUE(IMU_APP_MID_IMU_DATA_REQ), 1, 0}, 
+                                                {CFE_SB_MSGID_WRAP_VALUE(VOL_APP_MID_VOL_DATA_REQ), 1, 0},
+                                                {CFE_SB_MSGID_WRAP_VALUE(LOGIC_APP_MID_OP_DATA_REQ), 1, 0},
+                                                {CFE_SB_MSGID_WRAP_VALUE(CI_LAB_MID_ECHO_DATA_REQ), 1, 0},
+
+                                                // Housekeeping Request GOES HERE
+                                                {CFE_SB_MSGID_WRAP_VALUE(HK_MID_SENDCOMBINEDPKT_REQ), 1, 0}
+
+
+                                                
 #if 0
                 {CFE_SB_MSGID_WRAP_VALUE(SC_SEND_HK_MID),       4, 0},
                 {CFE_SB_MSGID_WRAP_VALUE(SC_1HZ_WAKEUP_MID),    1, 0},  /* Example of a 1hz packet */
                 {CFE_SB_MSGID_WRAP_VALUE(HS_SEND_HK_MID),       0, 0},  /* Example of a message that wouldn't be sent */
                 {CFE_SB_MSGID_WRAP_VALUE(FM_SEND_HK_MID),       4, 0},
-                {CFE_SB_MSGID_WRAP_VALUE(DS_SEND_HK_MID),       4, 0},
+                {CFE_SB_MSGID_WRAP_VALUE(DS_MID_HOUSEKEEPING_REQ),       4, 0},
                 {CFE_SB_MSGID_WRAP_VALUE(LC_SEND_HK_MID),       4, 0},
 #endif
                                              }};
