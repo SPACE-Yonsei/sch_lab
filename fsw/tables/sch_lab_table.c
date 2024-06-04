@@ -52,7 +52,6 @@
 #include "gps_app_msgids.h"
 #include "imu_app_msgids.h"
 #include "logic_app_msgids.h"
-#include "sim_app_msgids.h"
 #include "to_lab_msgids.h"
 #include "vol_app_msgids.h"
 
@@ -86,7 +85,6 @@ SCH_LAB_ScheduleTable_t SCH_TBL_Structure = {.Config = {
                                                  {CFE_SB_MSGID_WRAP_VALUE(GPS_APP_MID_HOUSEKEEPING_REQ), 1, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(IMU_APP_MID_HOUSEKEEPING_REQ), 1, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(LOGIC_APP_MID_HOUSEKEEPING_REQ), 1, 0},
-                                                 {CFE_SB_MSGID_WRAP_VALUE(SIM_APP_MID_HOUSEKEEPING_REQ), 1, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(TO_LAB_MID_HOUSEKEEPING_REQ), 1, 0},
                                                  {CFE_SB_MSGID_WRAP_VALUE(VOL_APP_MID_HOUSEKEEPING_REQ), 1, 0},
 
